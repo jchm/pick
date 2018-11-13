@@ -8,7 +8,12 @@ export default new Router({
   routes: [
     {
       path: "/",
-      name: "home",
+      name: "create",
+      component: Home
+    },
+    {
+      path: "/:id",
+      name: "list",
       component: Home
     }
   ]
