@@ -1,54 +1,112 @@
 <template>
   <div>
+    <header>
+      <router-link :to="{ name: 'create' }">Nieuwe lijst</router-link>
+      <button class="pick" @click="pick">Pick!</button>
+    </header>
     <ul>
-      <li v-for="(item, index) in items" :key="index">
-        {{ item.body }} <button @click="remove(item);">X</button>
+      <li class="item" v-for="(item, index) in items" :key="index">
+        {{ item.body }}
+        <button class="remove" @click="remove(item);">Verwijder</button>
       </li>
     </ul>
 
-    <input
-      type="text"
-      v-model="newItem"
-      @keyup.enter="add"
-      placeholder="Voeg idee toe"
-    />
-
-    <button class="primary" @click="pick">Pick!</button>
+    <div class="input-group">
+      <input
+        type="text"
+        v-model="newItem"
+        @keyup.enter="add"
+        placeholder="Voeg idee toe"
+      />
+      <button class="add" @click="add">Voeg toe</button>
+    </div>
   </div>
 </template>
 
-<style>
-html {
-  font-size: 18px;
-}
+<style scoped>
 ul {
-  margin: 0;
   padding: 0;
+  margin: 0;
 }
+
 li {
   list-style: none;
-  text-align: left;
-  padding: 0.5rem 0;
+}
 
+.item {
   display: flex;
   justify-content: space-between;
-}
-input {
-  width: 100%;
+  align-items: center;
+
+  background-color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 0.5rem;
   padding: 0.5rem;
+  border-radius: 0.25rem;
+
+  box-shadow: 0 0 0.25rem rgba(0, 0, 0, 0.2);
 }
-#app {
-  max-width: 800px;
-  margin: 0 auto;
+
+.input-group {
+  display: flex;
+  box-shadow: 0 0 0.25rem rgba(0, 0, 0, 0.2);
+  border-radius: 0.25rem;
 }
-.primary {
+
+input {
+  font-size: 1rem;
+  border-radius: 0;
+}
+
+input,
+button {
+  padding: 0.5rem;
   border: 0;
-  background-color: green;
-  color: white;
-  font-size: 18px;
-  padding: 0.5rem 1rem;
-  border-radius: 250px;
-  margin-top: 1rem;
+  background: transparent;
+}
+
+.remove {
+  font-size: 75%;
+  color: #af5b4c;
+}
+
+.input-group input {
+  flex: 1 1 auto;
+  border-radius: 0.25rem;
+}
+
+.input-group button {
+  background-color: #4caf8c;
+
+  border-radius: 0.25rem;
+  margin: 0.25rem;
+  color: #fff;
+}
+
+header {
+  margin-right: -0.5rem;
+  margin-left: -0.5rem;
+  padding: 0.5rem;
+  padding-top: 0;
+  margin-bottom: 1rem;
+
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  border-bottom: solid 1px #eee;
+}
+
+header > *:not(:last-child) {
+  margin-right: 0.5rem;
+}
+
+a {
+  color: #4caf8c;
+}
+
+.pick {
+  background-color: #b0b0b0;
+  color: #fff;
+  border-radius: 0.25rem;
 }
 </style>
 
@@ -122,6 +180,11 @@ export default {
       let randomIndex = Math.floor(Math.random() * this.items.length);
 
       alert(this.items[randomIndex].body);
+    }
+  },
+  computed: {
+    canPick() {
+      return this.items.length > 1;
     }
   },
   watch: {
